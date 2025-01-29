@@ -1,8 +1,7 @@
 <template>
   <div class="flex gap-4">
     <div
-      style="border-right-width: 1px; border-color: rgba(255, 255, 255, 0.2)"
-      class="sm:flex flex-col justify-between items-center w-auto h-screen p-4 hidden"
+      class="md:flex flex-col justify-between items-center w-auto h-screen p-4 hidden sticky top-0"
     >
       <div class="font-bold text-3xl">G</div>
 
@@ -26,24 +25,51 @@
     </div>
 
     <div class="h-full w-full">
-      <header class="flex sm:justify-center justify-between items-center p-6">
+      <header class="sticky top-0 flex md:justify-center justify-between items-center p-6">
         <Button as="div" text plain class="font-bold" size="large">
           <slot name="header-name"></slot>
         </Button>
-        <div class="sm:hidden block">
-          <Button
-            type="button"
-            text
-            plain
-            icon="pi pi-bars"
-            @click="toggle"
-            aria-haspopup="true"
-            aria-controls="overlay_menu"
-          />
-          <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
-        </div>
       </header>
+
       <slot name="content" />
+
+      <Toolbar class="md:!hidden flex fixed bottom-0 left-0 z-50 w-full h-16">
+        <template #start>
+          <div class="flex gap-x-6">
+            <template v-for="(item, key) in items[0].items" :key="key">
+              <Button
+                :icon="item.icon"
+                :plain="item.plain"
+                :text="item.text"
+                @click="
+                  () => {
+                    if (!checkRoute(item.route as string)) $router.push({ name: item.route });
+                  }
+                "
+              ></Button>
+            </template>
+          </div>
+        </template>
+
+        <template #center> </template>
+
+        <template #end>
+          <div class="flex items-center gap-4">
+            <template v-for="(item, key) in items[1].items" :key="key">
+              <Button
+                :icon="item.icon"
+                :as="item.as"
+                :href="item.href"
+                :url="item.url"
+                :target="item.target"
+                :rel="item.rel"
+                :plain="item.plain"
+                :text="item.text"
+              ></Button>
+            </template>
+          </div>
+        </template>
+      </Toolbar>
     </div>
   </div>
 </template>
@@ -51,13 +77,12 @@
 <script setup lang="ts">
 import { useRouter, useRoute } from "vue-router";
 import Button from "primevue/button";
-import Menu from "primevue/menu";
+import Toolbar from "primevue/toolbar";
 import { ref } from "vue";
 
 const $router = useRouter();
 const $route = useRoute();
 
-const menu = ref();
 const items = ref([
   {
     label: "Navigation",
@@ -123,8 +148,4 @@ const items = ref([
 ]);
 
 const checkRoute = (route: string) => $route.name === route;
-
-const toggle = (event: MouseEvent) => {
-  menu.value.toggle(event);
-};
 </script>

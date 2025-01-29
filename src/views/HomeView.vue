@@ -1,5 +1,5 @@
 <template>
-  <navbar-menu />
+  <NavbarMenu />
   <Card class="mt-16 mx-6 py-20">
     <template #content>
       <div class="text-center">
@@ -8,7 +8,7 @@
       </div>
     </template>
   </Card>
-  <footer-menu />
+  <FooterMenu />
 </template>
 
 <script setup lang="ts">

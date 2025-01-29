@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center gap-4">
+  <div class="flex items-center justify-center gap-4 p-8">
     <div>
       © {{ new Date().getFullYear() }}
       <a

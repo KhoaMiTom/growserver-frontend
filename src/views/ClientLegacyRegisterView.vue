@@ -103,6 +103,7 @@ import { zodResolver } from "@primevue/forms/resolvers/zod";
 import { z } from "zod";
 import Toast from "primevue/toast";
 import { postSignup } from "@/helpers/fetch-post";
+import { authClient } from "@/lib/auth-client";
 
 const toastSubmit = useToast();
 

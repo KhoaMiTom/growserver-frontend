@@ -28,6 +28,12 @@ const router = createRouter({
     },
 
     {
+      path: "/profile",
+      name: "profile",
+      component: () => import("../views/ProfileView.vue"),
+    },
+
+    {
       path: "/player/login/dashboard",
       name: "clientDashboard",
       component: () => import("../views/ClientDashboardView.vue"),

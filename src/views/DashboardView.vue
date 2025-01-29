@@ -4,8 +4,8 @@
 
     <template #content>
       <div
-        style="border-width: 1px; border-color: rgba(255, 255, 255, 0.2)"
-        class="rounded-md sm:w-1/2 w-[80%] m-auto"
+        style="border-color: rgba(255, 255, 255, 0.2)"
+        class="rounded-md md:border-[1px] md:w-1/2 w-[80%] m-auto"
       >
         <header class="p-4 flex items-center gap-4">
           <Avatar
