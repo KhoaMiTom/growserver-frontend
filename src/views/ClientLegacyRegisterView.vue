@@ -29,6 +29,7 @@
                   v-model="initialValues.username"
                   type="text"
                   class="mt-1 block w-full rounded-md"
+                  autocomplete="off"
                 />
                 <Message
                   v-if="$form.username?.invalid"
@@ -49,6 +50,7 @@
                   v-model="initialValues.name"
                   type="text"
                   class="mt-1 block w-full rounded-md"
+                  autocomplete="off"
                 />
                 <Message
                   v-if="$form.name?.invalid"
@@ -68,6 +70,7 @@
                 v-model="initialValues.email"
                 type="email"
                 class="mt-1 block w-full rounded-md"
+                autocomplete="off"
               />
               <Message v-if="$form.email?.invalid" severity="error" size="small" variant="simple">{{
                 $form.email.error?.message
@@ -85,6 +88,7 @@
                   v-model="initialValues.password"
                   type="password"
                   class="mt-1 block w-full rounded-md"
+                  autocomplete="off"
                 />
                 <Message
                   v-if="$form.password?.invalid"
@@ -105,6 +109,7 @@
                   v-model="initialValues.confirmPassword"
                   type="password"
                   class="mt-1 block w-full rounded-md"
+                  autocomplete="off"
                 />
                 <Message
                   v-if="$form.confirmPassword?.invalid"
@@ -140,7 +145,6 @@ import { useToast } from "primevue/usetoast";
 import { zodResolver } from "@primevue/forms/resolvers/zod";
 import { z } from "zod";
 import Toast from "primevue/toast";
-import { postSignup } from "@/helpers/fetch-post";
 import { authClient } from "@/lib/auth-client";
 
 const toastSubmit = useToast();
@@ -182,34 +186,42 @@ const initialValues = ref<z.infer<typeof zObj>>({
 const resolver = ref(zodResolver(zObj));
 const onFormSubmit = async (event: FormSubmitEvent) => {
   if (event.valid) {
-    const data = initialValues.value;
-    const res = await authClient.signUp.email({
-      email: data.email,
-      password: data.password,
-      name: data.name,
-      username: data.username,
-    });
-    console.log(res);
-    // const [data, err] = await postSignup<{ token: string }, string>(initialValues.value);
-    // if (err !== null) {
-    //   toastSubmit.add({ severity: "error", summary: err, life: 2000 });
-    //   return;
-    // } else {
-    //   const token = data?.token;
-    //   toastSubmit.add({
-    //     severity: "success",
-    //     summary: "Successfully registered new account!",
-    //     life: 2000,
-    //   });
-    //   toastSubmit.add({
-    //     severity: "info",
-    //     summary: "Redirecting to growtopia shortly...",
-    //     life: 3000,
-    //   });
-    //   setTimeout(() => {
-    //     window.location.href = `/player/growid/login/validate?token=${token}`;
-    //   }, 3000);
-    // }
+    const dataSubmit = initialValues.value;
+  await authClient.signUp.email(
+      {
+        email: dataSubmit.email,
+        password: dataSubmit.password,
+        name: dataSubmit.name,
+        username: dataSubmit.username,
+      },
+      {
+        onError: (err) => {
+          toastSubmit.add({
+            severity: "error",
+            summary: `Error occured:\n${err.error.status} (${err.error.statusText})\n${err.error.message}\n${err.error.code}`,
+            life: 5000,
+          });
+        },
+        onSuccess: () => {
+          toastSubmit.add({
+            severity: "success",
+            summary: "Successfully logged in!",
+            life: 2000,
+          });
+          toastSubmit.add({
+            severity: "info",
+            summary: "Redirecting to growtopia shortly...",
+            life: 3000,
+          });
+
+          // setTimeout(() => {
+          //   window.location.href = `/player/growid/login/validate?token=${data.token}`;
+          // }, 3000);
+        },
+      },
+    );
+
+    }
   }
 };
 </script>

@@ -19,22 +19,22 @@
         >
           <div class="p-4">
             <div class="mb-4">
-              <label for="growId" class="block text-sm font-medium text-surface-200">
-                GrowID
+              <label for="username" class="block text-sm font-medium text-surface-200">
+                Username
               </label>
               <InputText
-                id="growId"
-                name="growId"
-                v-model="initialValues.growId"
+                id="username"
+                name="username"
+                v-model="initialValues.username"
                 type="text"
                 class="mt-1 block w-full rounded-md"
               />
               <Message
-                v-if="$form.growId?.invalid"
+                v-if="$form.username?.invalid"
                 severity="error"
                 size="small"
                 variant="simple"
-                >{{ $form.growId.error?.message }}</Message
+                >{{ $form.username.error?.message }}</Message
               >
             </div>
 
@@ -82,21 +82,22 @@ import { useToast } from "primevue/usetoast";
 import { zodResolver } from "@primevue/forms/resolvers/zod";
 import { z } from "zod";
 import Toast from "primevue/toast";
-import { postValidate } from "@/helpers/fetch-post";
+import { authClient } from "@/lib/auth-client";
+import { useFetch } from "@vueuse/core";
 
 const toastSubmit = useToast();
 
 const zObj = z.object({
-  growId: z
+  username: z
     .string()
     .min(5, {
-      message: "GrowID must be at least 5 characters.",
+      message: "Username must be at least 5 characters.",
     })
     .max(20, {
-      message: "GrowID are too long.",
+      message: "Username are too long.",
     })
     .refine((v) => !/[!@#$%^&*(),.?":{}|<> ]/.test(v), {
-      message: "GrowID are containing special characters.",
+      message: "Username are containing special characters.",
     }),
   password: z.string().min(5, {
     message: "Password must contains at least 5 characters long.",
@@ -104,7 +105,7 @@ const zObj = z.object({
 });
 
 const initialValues = ref<z.infer<typeof zObj>>({
-  growId: "",
+  username: "",
   password: "",
 });
 
@@ -112,29 +113,38 @@ const resolver = ref(zodResolver(zObj));
 
 const onFormSubmit = async (event: FormSubmitEvent) => {
   if (event.valid) {
-    const [data, err] = await postValidate<{ token: string }, string>(initialValues.value);
+    const dataSubmit = initialValues.value;
+    await authClient.signIn.username(
+      {
+        username: dataSubmit.username,
+        password: dataSubmit.password,
+      },
+      {
+        onError: (err) => {
+          toastSubmit.add({
+            severity: "error",
+            summary: `Error occured:\n${err.error.status} (${err.error.statusText})\n${err.error.message}\n${err.error.code}`,
+            life: 5000,
+          });
+        },
+        onSuccess: () => {
+          toastSubmit.add({
+            severity: "success",
+            summary: "Successfully logged in!",
+            life: 2000,
+          });
+          toastSubmit.add({
+            severity: "info",
+            summary: "Redirecting to growtopia shortly...",
+            life: 3000,
+          });
 
-    if (err !== null) {
-      toastSubmit.add({ severity: "error", summary: err, life: 2000 });
-      return;
-    } else {
-      const token = data?.token;
-
-      toastSubmit.add({
-        severity: "success",
-        summary: "Successfully validated account!",
-        life: 2000,
-      });
-      toastSubmit.add({
-        severity: "info",
-        summary: "Redirecting to growtopia shortly...",
-        life: 3000,
-      });
-
-      setTimeout(() => {
-        window.location.href = `/player/growid/login/validate?token=${token}`;
-      }, 3000);
-    }
+          // setTimeout(() => {
+          //   window.location.href = `/player/growid/login/validate?token=${data.token}`;
+          // }, 3000);
+        },
+      },
+    );
   }
 };
 </script>
