@@ -1,10 +1,10 @@
 <template>
   <Toast></Toast>
 
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800">
-    <div class="w-[400px] bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden border border-slate-700/30">
+  <div class="min-h-screen flex items-center justify-center">
+    <div class="w-[400px] bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden border border-slate-700/30 animate-fade-in">
       <!-- Header with Logo -->
-      <div class="bg-gradient-to-r from-blue-500 to-purple-500 p-6 text-center">
+      <div class="bg-gradient-to-r from-blue-500 to-purple-500 p-6 text-center animate-slide-down">
         <div class="text-4xl font-bold text-white mb-2">GrowServer</div>
         <div class="text-slate-100">Legacy Register</div>
       </div>
@@ -18,7 +18,7 @@
           class="space-y-6"
         >
           <div class="space-y-4">
-            <div>
+            <div class="animate-slide-up" style="animation-delay: 0.1s">
               <label for="growId" class="block text-sm font-medium text-slate-200 mb-1">
                 GrowID
               </label>
@@ -27,7 +27,7 @@
                 name="growId"
                 v-model="initialValues.growId"
                 type="text"
-                class="w-full p-3 rounded-lg bg-slate-700/50 border-slate-600 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                class="w-full p-3 rounded-lg bg-slate-700/50 border-slate-600 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                 placeholder="Choose your GrowID"
               />
               <Message
@@ -35,12 +35,12 @@
                 severity="error"
                 size="small"
                 variant="simple"
-                class="mt-1"
+                class="mt-1 animate-fade-in"
                 >{{ $form.growId.error?.message }}</Message
               >
             </div>
 
-            <div>
+            <div class="animate-slide-up" style="animation-delay: 0.2s">
               <label for="password" class="block text-sm font-medium text-slate-200 mb-1">
                 Password
               </label>
@@ -49,7 +49,7 @@
                 name="password"
                 v-model="initialValues.password"
                 type="password"
-                class="w-full p-3 rounded-lg bg-slate-700/50 border-slate-600 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                class="w-full p-3 rounded-lg bg-slate-700/50 border-slate-600 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                 placeholder="Create a password"
               />
               <Message
@@ -57,12 +57,12 @@
                 severity="error"
                 size="small"
                 variant="simple"
-                class="mt-1"
+                class="mt-1 animate-fade-in"
                 >{{ $form.password.error?.message }}</Message
               >
             </div>
 
-            <div>
+            <div class="animate-slide-up" style="animation-delay: 0.3s">
               <label for="confirmPassword" class="block text-sm font-medium text-slate-200 mb-1">
                 Confirm Password
               </label>
@@ -71,7 +71,7 @@
                 name="confirmPassword"
                 v-model="initialValues.confirmPassword"
                 type="password"
-                class="w-full p-3 rounded-lg bg-slate-700/50 border-slate-600 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                class="w-full p-3 rounded-lg bg-slate-700/50 border-slate-600 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                 placeholder="Confirm your password"
               />
               <Message
@@ -79,7 +79,7 @@
                 severity="error"
                 size="small"
                 variant="simple"
-                class="mt-1"
+                class="mt-1 animate-fade-in"
                 >{{ $form.confirmPassword.error?.message }}</Message
               >
             </div>
@@ -88,14 +88,16 @@
           <div class="flex flex-col space-y-4">
             <button
               type="submit"
-              class="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+              class="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 animate-slide-up"
+              style="animation-delay: 0.4s"
             >
               Register
             </button>
             
             <RouterLink 
               to="/player/login/dashboard/legacy-login"
-              class="text-center text-slate-300 hover:text-slate-100 transition-colors"
+              class="text-center text-slate-300 hover:text-slate-100 transition-colors animate-slide-up"
+              style="animation-delay: 0.5s"
             >
               Already have an account? Login here
             </RouterLink>
@@ -176,3 +178,48 @@ const onFormSubmit = async (event: FormSubmitEvent) => {
   }
 };
 </script>
+
+<style>
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.5s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+</style>
