@@ -2,168 +2,107 @@
   <Toast></Toast>
 
   <div class="min-h-screen flex items-center justify-center">
-    <div class="max-w-4xl w-full mx-4 bg-white/5 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/10">
-      <div class="grid md:grid-cols-2">
-        <!-- Left side - Game Banner -->
-        <div class="relative hidden md:block">
-          <div class="absolute inset-0 bg-gradient-to-r from-violet-600/80 to-fuchsia-600/80 z-10"></div>
-          <div class="absolute inset-0 bg-[url('/src/assets/images/game-banner.jpg')] bg-cover bg-center"></div>
-          <div class="relative z-20 h-full flex flex-col items-center justify-center p-8 text-center">
-            <h1 class="text-4xl font-bold text-white mb-4 animate-fade-in">Welcome to OldGrow!</h1>
-          </div>
-        </div>
-
-        <!-- Right side - Register Form -->
-        <div class="p-8 md:p-12">
-          <div class="mb-8 md:hidden text-center">
-          </div>
-
-          <Form
-            v-slot="$form"
-            :resolver="resolver"
-            :initialValues="initialValues"
-            @submit="onFormSubmit"
-            class="space-y-6"
-          >
-            <div class="space-y-4">
-              <div class="animate-fade-in-up" style="animation-delay: 0.1s">
-                <label class="block text-sm font-medium text-gray-300 mb-1.5">
-                  GrowID
-                </label>
-                <div class="relative">
-                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                  </div>
-                  <InputText
-                    id="growId"
-                    name="growId"
-                    v-model="initialValues.growId"
-                    type="text"
-                    class="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-300"
-                    placeholder="Choose your GrowID"
-                  />
-                </div>
-                <Message
-                  v-if="$form.growId?.invalid"
-                  severity="error"
-                  size="small"
-                  variant="simple"
-                  class="mt-1.5 animate-fade-in"
-                  >{{ $form.growId.error?.message }}</Message
-                >
-              </div>
-
-              <div class="animate-fade-in-up" style="animation-delay: 0.2s">
-                <label class="block text-sm font-medium text-gray-300 mb-1.5">
-                  Password
-                </label>
-                <div class="relative">
-                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                  </div>
-                  <InputText
-                    id="password"
-                    name="password"
-                    v-model="initialValues.password"
-                    type="password"
-                    class="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-300"
-                    placeholder="Create a password"
-                  />
-                </div>
-                <Message
-                  v-if="$form.password?.invalid"
-                  severity="error"
-                  size="small"
-                  variant="simple"
-                  class="mt-1.5 animate-fade-in"
-                  >{{ $form.password.error?.message }}</Message
-                >
-              </div>
-
-              <div class="animate-fade-in-up" style="animation-delay: 0.3s">
-                <label class="block text-sm font-medium text-gray-300 mb-1.5">
-                  Confirm Password
-                </label>
-                <div class="relative">
-                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                  </div>
-                  <InputText
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    v-model="initialValues.confirmPassword"
-                    type="password"
-                    class="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-300"
-                    placeholder="Confirm your password"
-                  />
-                </div>
-                <Message
-                  v-if="$form.confirmPassword?.invalid"
-                  severity="error"
-                  size="small"
-                  variant="simple"
-                  class="mt-1.5 animate-fade-in"
-                  >{{ $form.confirmPassword.error?.message }}</Message
-                >
-              </div>
-            </div>
-
-            <div class="flex flex-col space-y-4">
-              <button
-                type="submit"
-                class="w-full bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 text-white font-medium py-3 px-4 rounded-xl transition-all duration-300 transform hover:translate-y-[-2px] hover:shadow-lg hover:shadow-violet-600/50 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-opacity-50 animate-fade-in-up"
-                style="animation-delay: 0.4s"
-              >
-                Create Account
-              </button>
-
-              <div class="flex items-center justify-center space-x-2 text-sm animate-fade-in-up" style="animation-delay: 0.5s">
-                <span class="text-gray-400">Already have an account?</span>
-                <RouterLink 
-                  to="/player/login/dashboard/legacy-login"
-                  class="text-violet-400 hover:text-violet-300 font-medium transition-colors"
-                >
-                  Login here
-                </RouterLink>
-              </div>
-            </div>
-          </Form>
-
-          <!-- Discord Section -->
-          <div class="mt-8 pt-8 border-t border-white/10">
-            <a 
-              href="https://discord.gg/3pwkCF7vTN" 
-              target="_blank"
-              class="block bg-[#5865F2] hover:bg-[#4752C4] text-white p-4 rounded-xl shadow-lg transition-all duration-300 hover:translate-y-[-2px] hover:shadow-xl group animate-fade-in-up"
-              style="animation-delay: 0.6s"
-            >
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                  <svg class="w-6 h-6 fill-current" viewBox="0 -28.5 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid">
-                    <g>
-                      <path d="M216.856339,16.5966031 C200.285002,8.84328665 182.566144,3.2084988 164.041564,0 C161.766523,4.11318106 159.108624,9.64549908 157.276099,14.0464379 C137.583995,11.0849896 118.072967,11.0849896 98.7430163,14.0464379 C96.9108417,9.64549908 94.1925838,4.11318106 91.8971895,0 C73.3526068,3.2084988 55.6133949,8.86399117 39.0420583,16.6376612 C5.61752293,67.146514 -3.4433191,116.400813 1.08711069,164.955721 C23.2560196,181.510915 44.7403634,191.567697 65.8621325,198.148576 C71.0772151,190.971126 75.7283628,183.341335 79.7352139,175.300261 C72.104019,172.400575 64.7949724,168.822202 57.8887866,164.667963 C59.7209612,163.310589 61.5131304,161.891452 63.2445898,160.431257 C105.36741,180.133187 151.134928,180.133187 192.754523,160.431257 C194.506336,161.891452 196.298154,163.310589 198.110326,164.667963 C191.183787,168.842556 183.854737,172.420929 176.223542,175.320965 C180.230393,183.341335 184.861538,190.991831 190.096624,198.16893 C211.238746,191.588051 232.743023,181.531619 254.911949,164.955721 C260.227747,108.668201 245.831087,59.8662432 216.856339,16.5966031 Z M85.4738752,135.09489 C72.8290281,135.09489 62.4592217,123.290155 62.4592217,108.914901 C62.4592217,94.5396472 72.607595,82.7145587 85.4738752,82.7145587 C98.3405064,82.7145587 108.709962,94.5189427 108.488529,108.914901 C108.508531,123.290155 98.3405064,135.09489 85.4738752,135.09489 Z M170.525237,135.09489 C157.88039,135.09489 147.510584,123.290155 147.510584,108.914901 C147.510584,94.5396472 157.658606,82.7145587 170.525237,82.7145587 C183.391518,82.7145587 193.761324,94.5189427 193.539891,108.914901 C193.539891,123.290155 183.391518,135.09489 170.525237,135.09489 Z" fill="currentColor" fill-rule="nonzero">
-                      </path>
-                    </g>
-                  </svg>
-                  <div>
-                    <h3 class="text-sm font-semibold">Join our Discord</h3>
-                    <p class="text-xs text-blue-100">Get support & connect with players</p>
-                  </div>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </div>
-            </a>
-          </div>
-        </div>
+    <div class="w-[420px] p-8 bg-black rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.3)] border border-zinc-900 transform transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(0,0,0,0.4)]">
+      <!-- Logo with animation -->
+      <div class="text-center mb-8">
+        <div class="text-5xl font-black text-white mb-2 animate-fade-in">GrowServer</div>
+        <div class="text-zinc-500 animate-fade-in-delay">Create your new account</div>
       </div>
+
+      <Form
+        v-slot="$form"
+        :resolver="resolver"
+        :initialValues="initialValues"
+        @submit="onFormSubmit"
+        class="space-y-6"
+      >
+        <div class="space-y-4">
+          <div class="animate-slide-up">
+            <label for="growId" class="block text-sm font-medium text-zinc-400 mb-1">
+              GrowID
+            </label>
+            <InputText
+              id="growId"
+              name="growId"
+              v-model="initialValues.growId"
+              type="text"
+              class="w-full p-3 rounded-lg bg-zinc-900 border border-zinc-800 text-white focus:border-zinc-700 focus:ring-1 focus:ring-zinc-700 transition-all placeholder:text-zinc-600"
+              placeholder="Choose your GrowID"
+            />
+            <Message
+              v-if="$form.growId?.invalid"
+              severity="error"
+              size="small"
+              variant="simple"
+              class="mt-1"
+              >{{ $form.growId.error?.message }}</Message
+            >
+          </div>
+
+          <div class="animate-slide-up-delay">
+            <label for="password" class="block text-sm font-medium text-zinc-400 mb-1">
+              Password
+            </label>
+            <InputText
+              id="password"
+              name="password"
+              v-model="initialValues.password"
+              type="password"
+              class="w-full p-3 rounded-lg bg-zinc-900 border border-zinc-800 text-white focus:border-zinc-700 focus:ring-1 focus:ring-zinc-700 transition-all placeholder:text-zinc-600"
+              placeholder="Create a password"
+            />
+            <Message
+              v-if="$form.password?.invalid"
+              severity="error"
+              size="small"
+              variant="simple"
+              class="mt-1"
+              >{{ $form.password.error?.message }}</Message
+            >
+          </div>
+
+          <div class="animate-slide-up-delay-2">
+            <label for="confirmPassword" class="block text-sm font-medium text-zinc-400 mb-1">
+              Confirm Password
+            </label>
+            <InputText
+              id="confirmPassword"
+              name="confirmPassword"
+              v-model="initialValues.confirmPassword"
+              type="password"
+              class="w-full p-3 rounded-lg bg-zinc-900 border border-zinc-800 text-white focus:border-zinc-700 focus:ring-1 focus:ring-zinc-700 transition-all placeholder:text-zinc-600"
+              placeholder="Confirm your password"
+            />
+            <Message
+              v-if="$form.confirmPassword?.invalid"
+              severity="error"
+              size="small"
+              variant="simple"
+              class="mt-1"
+              >{{ $form.confirmPassword.error?.message }}</Message
+            >
+          </div>
+        </div>
+
+        <div class="flex flex-col space-y-4">
+          <button
+            type="submit"
+            class="w-full bg-zinc-900 hover:bg-zinc-800 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-zinc-700 focus:ring-offset-2 focus:ring-offset-black animate-slide-up-delay-3"
+          >
+            Create account
+          </button>
+          
+          <div class="text-center animate-fade-in-delay-2">
+            <RouterLink 
+              to="/player/login/dashboard/legacy-login"
+              class="text-sm text-zinc-500 hover:text-white transition-colors"
+            >
+              Already have an account? 
+              <span class="font-semibold">Sign in</span>
+            </RouterLink>
+          </div>
+        </div>
+      </Form>
     </div>
   </div>
 </template>
@@ -239,17 +178,19 @@ const onFormSubmit = async (event: FormSubmitEvent) => {
 };
 </script>
 
-<style scoped>
+<style>
 @keyframes fadeIn {
   from {
     opacity: 0;
+    transform: translateY(-10px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@keyframes fadeInUp {
+@keyframes slideUp {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -261,10 +202,36 @@ const onFormSubmit = async (event: FormSubmitEvent) => {
 }
 
 .animate-fade-in {
-  animation: fadeIn 1s ease-out;
+  animation: fadeIn 0.5s ease-out forwards;
 }
 
-.animate-fade-in-up {
-  animation: fadeInUp 1s ease-out;
+.animate-fade-in-delay {
+  animation: fadeIn 0.5s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-delay-2 {
+  animation: fadeIn 0.5s ease-out 0.8s forwards;
+  opacity: 0;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out 0.4s forwards;
+  opacity: 0;
+}
+
+.animate-slide-up-delay {
+  animation: slideUp 0.5s ease-out 0.6s forwards;
+  opacity: 0;
+}
+
+.animate-slide-up-delay-2 {
+  animation: slideUp 0.5s ease-out 0.8s forwards;
+  opacity: 0;
+}
+
+.animate-slide-up-delay-3 {
+  animation: slideUp 0.5s ease-out 1s forwards;
+  opacity: 0;
 }
 </style>
