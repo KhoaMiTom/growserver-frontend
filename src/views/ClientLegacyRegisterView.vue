@@ -1,25 +1,25 @@
 <template>
   <Toast></Toast>
 
-  <div
-    class="flex justify-center absolute top-1/2 left-1/2 mr-[-%50] -translate-x-1/2 -translate-y-1/2"
-  >
-    <div class="w-[400px] h-auto bg-surface-800 rounded-md">
-      <div class="text-center mt-8 mb-4">
-        <div class="font-bold text-2xl">Legacy Register</div>
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800">
+    <div class="w-[400px] bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden border border-slate-700/30">
+      <!-- Header with Logo -->
+      <div class="bg-gradient-to-r from-blue-500 to-purple-500 p-6 text-center">
+        <div class="text-4xl font-bold text-white mb-2">GrowServer</div>
+        <div class="text-slate-100">Legacy Register</div>
       </div>
 
-      <div class="flex justify-center flex-row">
+      <div class="p-8">
         <Form
           v-slot="$form"
           :resolver="resolver"
           :initialValues="initialValues"
           @submit="onFormSubmit"
-          class="w-full px-8"
+          class="space-y-6"
         >
-          <div class="p-4">
-            <div class="mb-4">
-              <label for="growId" class="block text-sm font-medium text-surface-200">
+          <div class="space-y-4">
+            <div>
+              <label for="growId" class="block text-sm font-medium text-slate-200 mb-1">
                 GrowID
               </label>
               <InputText
@@ -27,19 +27,21 @@
                 name="growId"
                 v-model="initialValues.growId"
                 type="text"
-                class="mt-1 block w-full rounded-md"
+                class="w-full p-3 rounded-lg bg-slate-700/50 border-slate-600 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                placeholder="Choose your GrowID"
               />
               <Message
                 v-if="$form.growId?.invalid"
                 severity="error"
                 size="small"
                 variant="simple"
+                class="mt-1"
                 >{{ $form.growId.error?.message }}</Message
               >
             </div>
 
-            <div class="mb-4">
-              <label for="password" class="block text-sm font-medium text-surface-200">
+            <div>
+              <label for="password" class="block text-sm font-medium text-slate-200 mb-1">
                 Password
               </label>
               <InputText
@@ -47,19 +49,21 @@
                 name="password"
                 v-model="initialValues.password"
                 type="password"
-                class="mt-1 block w-full rounded-md"
+                class="w-full p-3 rounded-lg bg-slate-700/50 border-slate-600 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                placeholder="Create a password"
               />
               <Message
                 v-if="$form.password?.invalid"
                 severity="error"
                 size="small"
                 variant="simple"
+                class="mt-1"
                 >{{ $form.password.error?.message }}</Message
               >
             </div>
 
-            <div class="mb-4">
-              <label for="confirmPassword" class="block text-sm font-medium text-surface-200">
+            <div>
+              <label for="confirmPassword" class="block text-sm font-medium text-slate-200 mb-1">
                 Confirm Password
               </label>
               <InputText
@@ -67,25 +71,34 @@
                 name="confirmPassword"
                 v-model="initialValues.confirmPassword"
                 type="password"
-                class="mt-1 block w-full rounded-md"
+                class="w-full p-3 rounded-lg bg-slate-700/50 border-slate-600 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                placeholder="Confirm your password"
               />
               <Message
                 v-if="$form.confirmPassword?.invalid"
                 severity="error"
                 size="small"
                 variant="simple"
+                class="mt-1"
                 >{{ $form.confirmPassword.error?.message }}</Message
               >
             </div>
+          </div>
 
-            <div class="flex justify-center">
-              <button
-                type="submit"
-                class="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 w-full rounded-md"
-              >
-                Register
-              </button>
-            </div>
+          <div class="flex flex-col space-y-4">
+            <button
+              type="submit"
+              class="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            >
+              Register
+            </button>
+            
+            <RouterLink 
+              to="/player/login/dashboard/legacy-login"
+              class="text-center text-slate-300 hover:text-slate-100 transition-colors"
+            >
+              Already have an account? Login here
+            </RouterLink>
           </div>
         </Form>
       </div>
